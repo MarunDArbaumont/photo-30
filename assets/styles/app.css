@@ -1,6 +1,11 @@
 @font-face {
-    font-family: LibreBaskerville;
-    src: url("../fonts/LibreBaskerville-VariableFont_wght.ttf");
+    font-family: CrimsonPro;
+    src: url("../fonts/CrimsonPro-Regular.ttf");
+}
+
+@font-face {
+    font-family: Instrument;
+    src: url("../fonts/InstrumentSerif-Regular.ttf");
 }
 
 * {
@@ -8,11 +13,66 @@
 }
 
 p, a, h1, h2 b, label, button, input, summary {
-    font-family: LibreBaskerville;
+    font-family: CrimsonPro;
 }
 
 body {
-    background-color: skyblue;
+    padding: 2rem 1rem 3rem 3rem;
+    background-color: #fff;
+}
+
+h1 {
+    font-family: Instrument;
+    font-size: 28px;
+    text-align: center;
+}
+header p {
+    font-size: 11px;
+    font-family: CrimsonPro;
+    text-align: center;
+    color: #C5A059;
+    font-weight: 800;
+}
+header {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #dfba9d;
+    filter: drop-shadow(0 8px 8px #54464012);
+    padding: 24px;
+    width: 370px;
+    height: fit-content;
+    gap: 20px;
+    border-radius: 16px;
+    justify-content: center;
+    background-color: #FDFBF7;
+}
+
+header .leaf {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+header .leaf hr {
+    transform: rotate(90deg);
+    color: #DFBA9D;
+}
+
+summary {
+    font-size: 48px;
+    font-family: Instrument;
+    margin-bottom: 2rem;
+    display: flex;
+}
+
+
+
+summary hr {
+    display: flex;
+    flex-direction: column;
+    transform: rotate(90deg);
+    color: #DFBA9D;
+    margin: 0 3rem;
 }
 
 .photo-list-container {
@@ -22,23 +82,74 @@ body {
 }
 
 .single-photo-container {
-    height: fit-content;
+    width: 160px;
+    height: 120px;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 10px;
     background-color: #fff;
-    padding: 1rem 1rem 1rem 1rem;
-    align-items: center;
-    border-radius: 16px;
+    padding: 8px;
+    border-radius: 8px;
 }
 
 .photo-image {
-    width: 10rem;
-    height: 10rem;
+    width: 144px;
+    height: 91px;
+    border-radius: 4px;
     object-fit: cover;
 }
 
 .photo-time-photographe {
+    font-size: 16px;
+    font-family: Instrument;
+    width: fit-content;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    align-items: center;
+}
+input, button, label {
+    font-size: 24px;
+}
+
+form div {
+    display: flex;
+    gap: 1rem;
+}
+
+#form_Photo {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+.photo-form-div {
+    justify-content: center;
+}
+.photo-form-div label, header button {
+    font-family: Instrument;
+    display: block;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.1rem;
+    border-radius: 24px;
+    border: #000 solid 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    cursor: pointer;
+    background-color: #fff;
+    padding: 10px 22px 10px 22px;
+    gap: 8px;
+}
+
+#form_save {
     width: fit-content;
 }
 

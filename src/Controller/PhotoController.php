@@ -28,7 +28,7 @@ final class PhotoController extends AbstractController
         foreach ($photos as $photo) {
             $dateTime = $photo->getDateTime();
 
-            $day = $dateTime->format('Y-m-d');
+            $day = $dateTime->format('d/m/Y');
             $hour = $dateTime->format('H');
 
             $photosByDayAndHour[$day][$hour][] = $photo;
@@ -49,6 +49,7 @@ final class PhotoController extends AbstractController
 
         $form = $this->createFormBuilder($photo)
             ->add('Photo', FileType::class, [
+                'label' => "Ajouter une photo",
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
@@ -72,10 +73,10 @@ final class PhotoController extends AbstractController
                     'required'   => true,
                     
                 ],
-                'label' => 'Ton nom',
+                'label' => ' ',
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Ajoutes la photo'
+                'label' => 'Ajoute la photo'
             ])
             ->getForm();
 

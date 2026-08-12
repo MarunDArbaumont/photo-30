@@ -1,26 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PhotoController!{% endblock %}
+{% block title %}Photos de mariage{% endblock %}
 
 {% block body %}
-    <h1>Ajoutes une photo photo</h1>
-    {{ form(form) }}
-    {% for day, hours in photosByDayAndHour %}
+<header>
+    <p>2026</p>
+    <h1>Marie-Estelle et Cyril</h1>
+    <div class="leaf">
+        <hr>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#DFBA9D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf-icon lucide-leaf"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+        <hr>
+    </div>
+    {{ form_start(form) }}
+
+    <div class="photo-form-div">
+        {{ form_label(form.Photo) }}
+        {{ form_widget(form.Photo) }}
+        {{ form_errors(form.Photo) }}
+    </div>
+
+    <div>
+        {{ form_label(form.appartenance) }}
+        {{ form_widget(form.appartenance) }}
+        {{ form_errors(form.appartenance) }}
+    </div>
+
+    {{ form_widget(form.save) }}
+
+    {{ form_end(form) }}
+</header>
+{% for day, hours in photosByDayAndHour %}
     {% for hour, photos in hours %}
-    <details>
-        <summary>Photo prise à {{hour}}h le {{day}}</summary>
-        <div class="photo-list-container">
-        {% for photo in photos %}
-            <div class="single-photo-container">
-                <p class="photo-time-photographe">{{ photo.appartenance }}</p>
-                <img class="photo-image" src="{{ asset('uploads/photos/' ~ photo.image) }}"/>
+        <details {% if loop.parent.loop.first and loop.first %}open{% endif %}>
+            <summary>{{ day }} <hr/>{{ hour }}h</summary>
+            <div class="photo-list-container">
+                {% for photo in photos %}
+                    <div class="single-photo-container">
+                        <img class="photo-image" src="{{ asset('uploads/photos/' ~ photo.image) }}"/>
+                        <p class="photo-time-photographe">{{ photo.appartenance }}</p>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-        </div>
         </details>
     {% endfor %}
 {% endfor %}
+
 <div class="zoomed-image">
-  <img src=""/>
+    <img src=""/>
 </div>
 {% endblock %}
