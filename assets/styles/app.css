@@ -17,7 +17,7 @@ p, a, h1, h2 b, label, button, input, summary {
 }
 
 body {
-    padding: 8px;
+    padding-top: 8px;
     background-color: #fff;
     display: flex;
     flex-direction: column;
@@ -71,7 +71,7 @@ summary {
 }
 
 details {
-    width: 90%;
+    width: 80%;
 }
 
 
