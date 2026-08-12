@@ -19,17 +19,21 @@ use App\Repository\PhotoRepository;
 final class PhotoController extends AbstractController
 {
     #[Route('/', name: 'app_photo')]
-    public function index(PhotoRepository $photoRepository): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, PhotoRepository $photoRepository): Response
     {
         $photos = $photoRepository->findAll();
-        return $this->render('photo/index.html.twig', [
-            'photos' => $photos,
-        ]);
-    }
 
-    #[Route('/new', name: 'photo_new')]
-    public function new(EntityManagerInterface $entityManager, Request $request): Response
-    {
+        $photosByDayAndHour = [];
+
+        foreach ($photos as $photo) {
+            $dateTime = $photo->getDateTime();
+
+            $day = $dateTime->format('Y-m-d');
+            $hour = $dateTime->format('H');
+
+            $photosByDayAndHour[$day][$hour][] = $photo;
+        }
+
         $photo = new Photo();
         $photo->setDateTime(new \DateTime());
 
@@ -55,8 +59,10 @@ final class PhotoController extends AbstractController
             ])
             ->add('appartenance', TextType::class, [
                 'attr' => [
-                    'Photographe' => 'Ton nom'
-                ]
+                    'required'   => true,
+                    
+                ],
+                'label' => 'Ton nom',
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Ajoutes la photo'
@@ -90,22 +96,9 @@ final class PhotoController extends AbstractController
             return $this->redirectToRoute('app_photo');
         }
 
-        return $this->render('photo/new.html.twig', [
+        return $this->render('photo/index.html.twig', [
+            'photosByDayAndHour' => $photosByDayAndHour,
             'form' => $form->createView(),
         ]);
-    }
-
-    #[Route('/photo/{id}', name: 'photo_show')]
-    public function show(EntityManagerInterface $entityManager, int $id): Response
-    {
-        $photo = $entityManager->getRepository(Photo::class)->find($id);
-
-        if (!$photo) {
-            throw $this->createNotFoundException(
-                'No photo found for id '.$id
-            );
-        }
-
-        return new Response('Check out this great photo: '.$photo->getName());
     }
 }

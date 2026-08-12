@@ -7,4 +7,17 @@ import './stimulus_bootstrap.js';
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+const clickToZoom = document.querySelectorAll(".photo-image");
+const zoomedImageContainer = document.querySelector(".zoomed-image");
+const zoomedImg = zoomedImageContainer.querySelector("img");
+
+clickToZoom.forEach((img) => {
+  img.addEventListener("click", () => {
+    zoomedImg.src = img.src;
+    zoomedImageContainer.style.display = "flex";
+  });
+});
+
+zoomedImageContainer.addEventListener("click", () => {
+  zoomedImageContainer.style.display = "none";
+});

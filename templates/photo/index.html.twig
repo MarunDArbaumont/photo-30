@@ -3,13 +3,24 @@
 {% block title %}Hello PhotoController!{% endblock %}
 
 {% block body %}
-    <h1>Les photos</h1>
-    <ul class="photo-list-container">
-    {% for photo in photos %}
-        <li class="single-photo-container">
-            <p class="photo-time-photographe">Pris le {{ photo.dateTime|date('d') }} à {{ photo.dateTime|date('H:i') }} part {{ photo.appartenance }}</p>
-            <img class="photo-image" src="{{ asset('uploads/photos/' ~ photo.image) }}" />
-        
+    <h1>Ajoutes une photo photo</h1>
+    {{ form(form) }}
+    {% for day, hours in photosByDayAndHour %}
+    {% for hour, photos in hours %}
+    <details>
+        <summary>Photo prise à {{hour}}h le {{day}}</summary>
+        <div class="photo-list-container">
+        {% for photo in photos %}
+            <div class="single-photo-container">
+                <p class="photo-time-photographe">{{ photo.appartenance }}</p>
+                <img class="photo-image" src="{{ asset('uploads/photos/' ~ photo.image) }}"/>
+            </div>
+        {% endfor %}
+        </div>
+        </details>
     {% endfor %}
-    </ul>
+{% endfor %}
+<div class="zoomed-image">
+  <img src=""/>
+</div>
 {% endblock %}

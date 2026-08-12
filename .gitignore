@@ -23,3 +23,5 @@
 /Dockerfile
 /Caddyfile
 /compose.yaml
+
+/public/uploads
