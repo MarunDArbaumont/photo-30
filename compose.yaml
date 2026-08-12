@@ -1,58 +1,38 @@
+
 services:
   php:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: unless-stopped
-    environment:
-      APP_ENV: prod
-      APP_SECRET: ${APP_SECRET}
-      DATABASE_URL: ${DATABASE_URL}
+    expose:
+      - "8000"
     volumes:
-      - photo_uploads:/app/public/uploads
+      - .:/app
     depends_on:
       database:
         condition: service_healthy
-
-  database:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    volumes:
-      - database_data:/var/lib/postgresql/data
-    healthcheck:
-      test:
-        [
-          "CMD",
-          "pg_isready",
-          "-d",
-          "${POSTGRES_DB}",
-          "-U",
-          "${POSTGRES_USER}"
-        ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  caddy:
-    image: caddy:2-alpine
-    restart: unless-stopped
+  web:
+    image: caddy:alpine
     ports:
-      - "80:80"
-      - "443:443"
+      - "8000:80"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-      - photo_uploads:/app/public/uploads:ro
     depends_on:
       - php
 
+  database:
+    image: postgres:${POSTGRES_VERSION:-16}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+
 volumes:
   database_data:
-  photo_uploads:
-  caddy_data:
-  caddy_config:
