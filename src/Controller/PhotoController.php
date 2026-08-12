@@ -11,13 +11,14 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints\File;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Photo;
 use App\Repository\PhotoRepository;
 
 final class PhotoController extends AbstractController
 {
-    #[Route('/photo', name: 'app_photo')]
+    #[Route('/', name: 'app_photo')]
     public function index(PhotoRepository $photoRepository): Response
     {
         $photos = $photoRepository->findAll();
@@ -26,39 +27,60 @@ final class PhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/photo/new', name: 'photo_new')]
+    #[Route('/new', name: 'photo_new')]
     public function new(EntityManagerInterface $entityManager, Request $request): Response
     {
         $photo = new Photo();
         $photo->setDateTime(new \DateTime());
 
         $form = $this->createFormBuilder($photo)
-            ->add('image', FileType::class, [
+            ->add('Photo', FileType::class, [
                 'mapped' => false,
                 'required' => true,
+                'constraints' => [
+                    new File(
+                        maxSize: '20M',
+                        mimeTypes: [
+                            'image/jpeg',
+                            'image/png',
+                            'image/gif',
+                            'image/heic',
+                            'image/heif',
+                            'image/heic-sequence',
+                            'image/heif-sequence',
+                        ],
+                        mimeTypesMessage: 'Please upload a valid image (JPEG, PNG, GIF, or HEIC).',
+                    ),
+                ],
             ])
             ->add('appartenance', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Enter name'
+                    'Photographe' => 'Ton nom'
                 ]
             ])
             ->add('save', SubmitType::class, [
-                'label' => 'Post photo'
+                'label' => 'Ajoutes la photo'
             ])
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imageFile = $form->get('image')->getData();
+            $imageFile = $form->get('Photo')->getData();
 
             if ($imageFile instanceof UploadedFile) {
-                $newFilename = uniqid() . '.' . $imageFile->guessExtension();
+                $originalExtension = strtolower($imageFile->guessExtension());
+                $newFilename = uniqid();
 
-                $imageFile->move(
-                    $this->getParameter('photo_directory'),
-                    $newFilename
-                );
+                if (in_array($originalExtension, ['heic', 'heif'])) {
+                    $imagick = new \Imagick($imageFile->getPathname());
+                    $imagick->setImageFormat('jpeg');
+                    $imagick->writeImage($this->getParameter('photo_directory') . '/' . $newFilename . '.jpg');
+                    $newFilename .= '.jpg';
+                } else {
+                    $newFilename .= '.' . $originalExtension;
+                    $imageFile->move($this->getParameter('photo_directory'), $newFilename);
+                }
 
                 $photo->setImage($newFilename);
             }
@@ -84,10 +106,6 @@ final class PhotoController extends AbstractController
             );
         }
 
-        return new Response('Check out this great product: '.$product->getName());
-
-        // or render a template
-        // in the template, print things with {{ product.name }}
-        // return $this->render('product/show.html.twig', ['product' => $product]);
+        return new Response('Check out this great photo: '.$photo->getName());
     }
 }

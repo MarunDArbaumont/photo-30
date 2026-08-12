@@ -1,3 +1,42 @@
+@font-face {
+    font-family: LibreBaskerville;
+    src: url("../fonts/LibreBaskerville-VariableFont_wght.ttf");
+}
+
+* {
+    margin: 0;
+}
+
+p, a, h1, h2 b, label, button, input {
+    font-family: LibreBaskerville;
+}
+
 body {
     background-color: skyblue;
+}
+
+.photo-list-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 0.5rem;
+}
+
+.single-photo-container {
+    break-inside: avoid;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #fff;
+    padding: 1rem 1rem 1rem 1rem;
+    align-items: center;
+    border-radius: 16px;
+}
+.photo-image {
+    width: 15rem;
+    height: fit-content;
+}
+
+.photo-time-photographe {
+    width: fit-content;
 }
