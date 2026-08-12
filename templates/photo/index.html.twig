@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PhotoController!{% endblock %}
+
+{% block body %}
+    <h1>cool photos</h1>
+    {% for photo in photos %}
+        <div>
+            <img src="{{ asset('uploads/photos/' ~ photo.image) }}" />
+            <p>{{ photo.appartenance }}</p>
+            <p>{{ photo.dateTime|date('Y-m-d H:i') }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
