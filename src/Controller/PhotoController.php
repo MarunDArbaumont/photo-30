@@ -71,6 +71,7 @@ final class PhotoController extends AbstractController
             ->add('appartenance', TextType::class, [
                 'attr' => [
                     'required'   => true,
+                    'placeholder' => 'Légende',
                     
                 ],
                 'label' => ' ',
