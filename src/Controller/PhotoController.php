@@ -34,6 +34,16 @@ final class PhotoController extends AbstractController
             $photosByDayAndHour[$day][$hour][] = $photo;
         }
 
+        krsort($photosByDayAndHour);
+        foreach ($photosByDayAndHour as $day => &$hours) {
+            krsort($hours);
+            foreach ($hours as $hour => &$hourPhotos) {
+                usort($hourPhotos, fn($a, $b) => $b->getDateTime() <=> $a->getDateTime());
+            }
+            unset($hourPhotos);
+        }
+        unset($hours);
+
         $photo = new Photo();
         $photo->setDateTime(new \DateTime());
 
