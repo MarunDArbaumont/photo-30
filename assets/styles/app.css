@@ -17,8 +17,12 @@ p, a, h1, h2 b, label, button, input, summary {
 }
 
 body {
-    padding: 2rem 1rem 3rem 3rem;
+    padding: 8px;
     background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: fit-content;
 }
 
 h1 {
@@ -38,13 +42,14 @@ header {
     flex-direction: column;
     border: 1px solid #dfba9d;
     filter: drop-shadow(0 8px 8px #54464012);
-    padding: 24px;
-    width: 370px;
+    padding: 20px;
+    width: 18rem;
     height: fit-content;
     gap: 20px;
     border-radius: 16px;
     justify-content: center;
     background-color: #FDFBF7;
+    margin-bottom: 32px;
 }
 
 header .leaf {
@@ -82,7 +87,7 @@ summary hr {
 }
 
 .single-photo-container {
-    width: 160px;
+    width: 140px;
     height: 120px;
     display: flex;
     flex-direction: column;
@@ -158,8 +163,8 @@ form div {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 110vw;
+  height: 110vh;
   background: rgba(0, 0, 0, 0.8);
   z-index: 1000;
   cursor: zoom-out;
