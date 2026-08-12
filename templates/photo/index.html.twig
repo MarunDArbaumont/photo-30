@@ -4,12 +4,12 @@
 
 {% block body %}
     <h1>Les photos</h1>
-    <div class="photo-list-container">
+    <ul class="photo-list-container">
     {% for photo in photos %}
         <li class="single-photo-container">
             <p class="photo-time-photographe">Pris le {{ photo.dateTime|date('d') }} à {{ photo.dateTime|date('H:i') }} part {{ photo.appartenance }}</p>
             <img class="photo-image" src="{{ asset('uploads/photos/' ~ photo.image) }}" />
-        </li>
+        
     {% endfor %}
-    </div>
+    </ul>
 {% endblock %}
