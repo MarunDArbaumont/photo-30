@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -76,7 +76,9 @@ final class PhotoController extends AbstractController
                 ],
                 'label' => ' ',
             ])
-            ->add('dateTime', DateType::class)
+            ->add('dateTime', DateTimeType::class, [
+                'label' => ' '
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Ajoute la photo'
             ])
