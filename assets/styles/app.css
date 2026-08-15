@@ -64,7 +64,7 @@ header .leaf hr {
 }
 
 summary {
-    font-size: 48px;
+    font-size: 44px;
     font-family: Instrument;
     margin-bottom: 2rem;
     display: flex;
@@ -90,7 +90,7 @@ summary hr {
 }
 
 .single-photo-container {
-    width: 130px;
+    width: 120px;
     height: 120px;
     display: flex;
     flex-direction: column;
