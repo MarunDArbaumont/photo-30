@@ -49,7 +49,7 @@ final class PhotoController extends AbstractController
 
         $form = $this->createFormBuilder($photo)
             ->add('Photo', FileType::class, [
-                'label' => "Ajouter une photo",
+                'label' => "Chercher/prendre une photo",
                 'mapped' => false,
                 'required' => true,
                 'constraints' => [
@@ -76,6 +76,7 @@ final class PhotoController extends AbstractController
                 ],
                 'label' => ' ',
             ])
+            ->add('dateTime', DateType::class)
             ->add('save', SubmitType::class, [
                 'label' => 'Ajoute la photo'
             ])
